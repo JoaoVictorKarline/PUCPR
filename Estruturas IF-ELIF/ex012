@@ -1,0 +1,22 @@
+canal = int(input("Informe um canal: "))
+
+if canal == 2:
+    print("BANDEIRANTES")
+
+elif canal == 4:
+    print("SBT")
+
+elif canal == 6:
+    print("CNT")
+
+elif canal == 7:
+    print("RECORD")
+
+elif canal == 9:
+    print("CULTURA")
+
+elif canal == 12:
+    print("GLOBO")
+
+else:
+    print("INVÁLIDO")
