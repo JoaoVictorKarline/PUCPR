@@ -1,0 +1,7 @@
+dia_semana = int(input("Dia de semana: "))
+dias = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
+
+if dia_semana >= 1 and dia_semana <=7:
+    print(f"O dia é {dias[dia_semana-1]}")
+else:
+    print("Inválido")
