@@ -1,0 +1,11 @@
+p1 = input("Escolha entre pedra, papel, tesoura ")
+p2 = input("Escolha entre pedra, papel, tesoura ")
+
+if p1 == p2:
+    print("Empate")
+    
+if (p1 == "tesoura" and p2 == "papel") or (p1 == "pedra" and p2 == "tesoura") or (p1 == "papel" and p2 == "pedra"):
+    print("P1 Ganhou")
+    
+else:
+    print("P2 Ganhou")
