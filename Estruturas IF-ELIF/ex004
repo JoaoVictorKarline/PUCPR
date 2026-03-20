@@ -1,0 +1,4 @@
+valor_total = float(input("Digite o valor da comanda: "))
+gorjeta = valor_total * 0.10
+
+print(f"A gorjeta do garçom é de R${gorjeta}")
