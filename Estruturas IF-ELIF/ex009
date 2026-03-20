@@ -1,0 +1,7 @@
+vogais = "AEIOU"
+letra = input("Digite uma letra: ")
+
+if letra in vogais:
+    print ("Vogal")
+else:
+    print("Consoante")
