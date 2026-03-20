@@ -1,0 +1,4 @@
+comprimento = int(input("Informe o comprimento: "))
+largura = int(input("Informe o largura: "))
+
+metragem = comprimento * largura
