@@ -1,0 +1,10 @@
+sal = float(input("Informe o salário: "))
+
+if sal <= 1903:
+    print("Isento")
+elif sal <= 2826:
+    imposto = sal * 0.075
+elif sal <= 3751:
+    imposto = sal * 0.15
+else:
+    imposto = sal * 0.225
