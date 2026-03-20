@@ -1,0 +1,7 @@
+num1 = int(input("Informe um número: "))
+num2 = int(input("Informe um número: "))
+
+if num1 > num2:
+    print("Primeiro número maior")
+else:
+    print("Segundo número maior")
