@@ -1,0 +1,6 @@
+valor_compra  = float(input("Digite o valor do compra: "))
+qtde = float(input("Digite o valor em reais que você deu: "))
+
+troco = qtde - valor_compra
+
+print(f"Seu troco é de R${troco}")
