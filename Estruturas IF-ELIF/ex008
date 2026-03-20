@@ -1,0 +1,7 @@
+nomep1 = input("Digite o primeiro nome: ").lower()
+nomep2 = input("Digite o segundo nome: ").lower()
+
+if nomep1 == nomep2:
+    print("Tem o mesmo nome")
+else:
+    print("Não tem o mesmo nome")
