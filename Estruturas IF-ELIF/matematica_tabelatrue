@@ -1,0 +1,62 @@
+expr = input("Expressão proposicional: ").upper()
+count_prop = 0
+tabela_verdade = []
+prop = []
+
+for i in expr:
+    if i in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        if i in prop:
+            break
+        else:
+            count_prop += 1
+            prop.append(i)
+
+linhas = 2 ** count_prop
+colunas = count_prop
+
+# 1 Passo: preencher tabela com 0
+
+for i in range(linhas):
+    linha = []
+    for j in range(colunas):
+        linha.append(0)
+    tabela_verdade.append(linha)
+
+# 2 Passo: Preencher V e F
+
+for i in range(colunas):
+    cont_linhas = linhas // (2 ** (i + 1))
+
+    for j in range(linhas):
+        if (j // cont_linhas) % 2 == 0:
+            tabela_verdade[j][i] = 1
+        else:
+            tabela_verdade[j][i] = 0
+
+# 3 Passo: Identificar proposições negadas e preencher
+
+negacoes = 0
+prop_negadas = []
+for i in range(len(expr)):
+    if expr[i] == "~" and i + 1 < len(expr) and expr[i + 1] in prop:
+        negacoes += 1
+        prop_negadas.append(expr[i + 1])
+
+for k in prop_negadas:
+    ind = 0
+
+    # descobrir índice da proposição
+    for i in range(len(prop)):
+        if prop[i] == k:
+            ind = i
+
+    # aplicar negação na tabela
+    for j in range(linhas):
+        if tabela_verdade[j][ind] == 0:
+            tabela_verdade[j].append(1)
+        else:
+            tabela_verdade[j].append(0)
+
+
+for i in tabela_verdade:
+   print(i)
