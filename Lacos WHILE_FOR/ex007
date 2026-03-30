@@ -1,0 +1,11 @@
+num = int(input("Quantidade de termos fibonacci: "))
+i = 0
+antecessor = 0
+atual = 1
+sucessor = 0
+while i < num:
+    print(antecessor)
+    sucessor = atual + antecessor
+    antecessor = atual
+    atual = sucessor
+    i+=1
