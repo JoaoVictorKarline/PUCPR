@@ -1,0 +1,28 @@
+candidato1 = 0
+candidato2 = 0
+resultados_parciais = 0
+op = ""
+
+while op != "ENCERRAR":
+    print("VOTAÇÃO\n")
+    print("1  - João da Silva")
+    print("2 - Carlos Alberto")
+    print("3 - Resultados parciais\n")
+    op = input()
+
+    if op == "1":
+        candidato1 += 1
+    if op == "2":
+        candidato2 += 1
+    if op == "3":
+        print(f"João da Silva - {candidato1}")
+        print(f"Carlos Alva - {candidato2}")
+
+if candidato1 > candidato2:
+    print(f"Candidato João da Silva ganhou com {candidato1} votos")
+    print(f"Candidato Carlos Alberto perdeu com {candidato2} votos")
+elif candidato2 > candidato1:
+    print(f"Candidato Carlos Alberto ganhou com {candidato2} votos")
+    print(f"Candidato João da Silva perdeu com {candidato1} votos")
+else:
+    print("Empate! Necessário segundo turno!")
