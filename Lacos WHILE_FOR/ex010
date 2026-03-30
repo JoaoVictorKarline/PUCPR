@@ -1,0 +1,24 @@
+import random
+
+random = random.randint(1, 100)
+tentativas = 0
+
+while tentativas < 5:
+    num = int(input("Informe um número: "))
+    if num == random:
+        print("Você acertou!")
+        break
+    else:
+        if num > random:
+            print("Tente um número menor")
+        else:
+            print("Tente um número maior")
+
+    if abs(num - random) <= 10:
+        print("Está quente! ", end=' ')
+    else:
+        print("Está frio!", end=' ')
+    tentativas +=1
+
+if tentativas >= 5:
+    print(f"Você não consegiu adivinhar!, o número era o {random}")
