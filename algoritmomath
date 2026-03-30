@@ -1,0 +1,149 @@
+print("Use os símbolos:\n"
+      "^ Conjunção\n"
+      "| Disjunção\n"
+      "> Implicação\n"
+      "<> Bicondicional\n")
+expr = input("Expressão proposicional: ").upper().replace(" ", "")
+count_prop = 0
+tabela_verdade = []
+prop = []
+
+for i in expr:
+    if i in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        if i in prop:
+            continue
+        else:
+            count_prop += 1
+            prop.append(i)
+
+linhas = 2 ** count_prop
+colunas = count_prop
+
+# 1 Passo: preencher tabela com 0
+
+for i in range(linhas):
+    linha = []
+    for j in range(colunas):
+        linha.append(0)
+    tabela_verdade.append(linha)
+
+# 2 Passo: Preencher V e F
+
+for i in range(colunas):
+    cont_linhas = linhas // (2 ** (i + 1))
+
+    for j in range(linhas):
+        if (j // cont_linhas) % 2 == 0:
+            tabela_verdade[j][i] = 1
+        else:
+            tabela_verdade[j][i] = 0
+
+# 3 Passo: Identificar proposições negadas e preencher
+
+negacoes = 0
+prop_negadas = []
+for i in range(len(expr)):
+    if expr[i] == "~" and i + 1 < len(expr) and expr[i + 1] in prop:
+        negacoes += 1
+        prop_negadas.append(expr[i + 1])
+
+for k in prop_negadas:
+    ind = 0
+
+    # descobrir índice da proposição
+    for i in range(len(prop)):
+        if prop[i] == k:
+            ind = i
+
+    # aplicar negação na tabela
+    for j in range(linhas):
+        if tabela_verdade[j][ind] == 0:
+            tabela_verdade[j].append(1)
+        else:
+            tabela_verdade[j].append(0)
+
+# Vetor ordem proposições
+ordem_proposicoes = prop
+for i in prop_negadas:
+    ordem_proposicoes.append(i)
+
+print(ordem_proposicoes)
+
+# 4 Passo, identificar parenteses e resolver o que está dentro dos parenteses
+
+qtde_parentesis = 0
+for i in range(len(expr)):
+    if expr[i] == "(":
+        qtde_parentesis += 1
+
+# Calcula e elimina parentese
+while qtde_parentesis > 0:
+    exprnova = []
+    exprnova1 = ""
+    for i in range(len(expr)):
+        if expr[i] == "(" and  expr[i+1] != "(":
+            z = 0
+            while True:
+                if expr[i+z] != ")":
+                    exprnova.append(expr[i+z])
+                    z += 1
+                else:
+                    break
+    exprnova1 = "".join(exprnova).replace("(", "")
+    print(exprnova1)
+    qtde_parentesis -=1
+
+# Funções calcular proposições e retornar array
+def calcular_and(prop1, prop2):
+    vetor_and = []
+    i = 0
+    tam = len(prop1)
+    while i < tam:
+        if prop1[i] == 1 and prop2[i] == 1:
+            vetor_and.append(1)
+        else:
+            vetor_and.append(0)
+        i += 1
+    return vetor_and
+
+
+def calcular_or(prop1, prop2):
+    vetor_or = []
+    i = 0
+    tam = len(prop1)
+    while i < tam:
+        if prop1[i] == 0 and prop2[i] == 0:
+            vetor_or.append(0)
+        else:
+            vetor_or.append(1)
+        i += 1
+    return vetor_or
+
+
+def calcular_implicacao(prop1, prop2):
+    vetor_impicacao = []
+    i = 0
+    tam = len(prop1)
+    while i < tam:
+        if prop1[i] == 1 and prop2[i] == 0:
+            vetor_impicacao.append(0)
+        else:
+            vetor_impicacao.append(1)
+        i += 1
+    return vetor_impicacao
+
+
+def calcular_bicondicional(prop1, prop2):
+    vetor_bicondicional = []
+    i = 0
+    tam = len(prop1)
+    while i < tam:
+        if prop1[i] == prop2[i]:
+            vetor_bicondicional.append(1)
+        else:
+            vetor_bicondicional.append(0)
+        i += 1
+    return vetor_bicondicional
+
+for i in tabela_verdade:
+ print(i)
