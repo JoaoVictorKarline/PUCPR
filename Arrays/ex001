@@ -1,0 +1,29 @@
+vet = []
+soma = 0
+media = 0
+
+valor = int(input("Informe um valor: "))
+vet.append(valor)
+menor = valor
+maior = valor
+
+while True:
+    valor = int(input("Informe um valor: "))
+    if valor == 0:
+        break
+    vet.append(valor)
+
+for i in range(0, len(vet)):
+    if vet[i] < menor:
+        menor = vet[i]
+    if vet[i] > maior:
+        maior = vet[i]
+    soma += vet[i]
+
+media = soma / len(vet)
+
+print(f"Soma: {soma}")
+print(f"Media: {media}")
+print(f"Menor: {menor}")
+print(f"Maior: {maior}")
+print(vet)
