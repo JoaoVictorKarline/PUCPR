@@ -1,0 +1,21 @@
+vet = []
+
+num = int(input("Quantidade de elementos: "))
+
+for i in range (0, num):
+    val = int(input("Informe o valor: "))
+    vet.append(val)
+
+for i in range (0, len(vet)):
+    if i+1 > (len(vet) - 1):
+        
+        break
+
+    if i-1 < 0:
+        print(f"Atual: {vet[i]}")
+        print(f"Sucessor: {vet[i + 1]}")
+        continue
+
+    print(f"Atual: {vet[i]}")
+    print(f"Antecessor: {vet[i-1]}")
+    print(f"Sucessor: {vet[i+1]}")
