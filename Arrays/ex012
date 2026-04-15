@@ -1,16 +1,20 @@
+import random
+
 vet = []
 
-for i in range (0, 20):
-    vet.append(random.randint(0,100))
+for i in range(0, 20):
+    vet.append(random.randint(0, 100))
 
 maior = vet[0]
 maior2 = vet[0]
 
-for i in range(0, len(vet)):
+for i in range(1, len(vet)):
     if vet[i] > maior:
         maior2 = maior
         maior = vet[i]
+    elif vet[i] > maior2:
+        maior2 = vet[i]
 
 print(vet)
-print(maior)
-print(maior2)
+print("Maior:", maior)
+print("Segundo maior:", maior2)
