@@ -1,0 +1,23 @@
+import random
+
+vet = []
+
+for i in range(0, 10):
+    vet.append(random.randint(0, 100))
+
+soma_pares = 0
+mult_cinco = 0
+vet_multdez = []
+
+for i in range(0, len(vet)):
+    if vet[i] % 2 == 0:
+        soma_pares += vet[i]
+    if vet[i] % 5 == 0:
+        mult_cinco += vet[i]
+    if vet[i] % 10 == 0:
+        vet_multdez.append(vet[i])
+
+print(vet)
+print(soma_pares)
+print(mult_cinco)
+print(vet_multdez)
