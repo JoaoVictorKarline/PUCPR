@@ -1,0 +1,17 @@
+import random
+
+vet1 = []
+vet2 = []
+vet3_soma = []
+
+for i in range(0, 5):
+    vet1.append(random.randint(0, 20))
+    vet2.append(random.randint(0, 20))
+
+for i in range(0, len(vet1)):
+    soma = vet1[i] + vet2[i]
+    vet3_soma.append(soma)
+
+print(vet1)
+print(vet2)
+print(vet3_soma)
