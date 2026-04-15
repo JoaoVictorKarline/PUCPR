@@ -1,0 +1,25 @@
+import random
+
+vet = [30, 10, 40, 50, 20]
+vet2 = []
+media = 0
+soma = 0
+
+#for i in range(0, 20):
+    #vet.append(random.randint(0, 100))
+
+for i in range(0,len(vet)):
+    soma += vet[i]
+
+media = soma / len(vet)
+
+for i in range(0, len(vet)):
+    if vet[i] > media:
+        vet2.append(1)
+    elif vet[i] < media:
+        vet2.append(-1)
+    else:
+        vet2.append(0)
+
+print(vet)
+print(vet2)
