@@ -1,0 +1,13 @@
+vet = [5, 3, -5, 10, 12, 1, 0, -10, 100]
+
+for i in range(0, len(vet)):
+    index = i
+    for j in range(i, len(vet)):
+        if vet[j] < vet[index]:
+            index = j
+
+    aux = vet[i]
+    vet[i] = vet[index]
+    vet[index] = aux
+
+print(vet)
