@@ -1,0 +1,51 @@
+cpf = input('Digite seu CPF: ').replace('.', '').replace('-', '')
+cpfvet = []
+for i in range(0, len(cpf)):
+    cpfvet.append(int(cpf[i]))
+
+if len(cpf) != 11:
+    print("CPF Inválido!")
+
+else:
+#Valida se os dígitos são todos iguais
+    soma = 0
+    for i in range(0, len(cpf)):
+        if cpf[i] != cpf[0]:
+            break
+        soma += 1
+    if soma == 11:
+        print("CPF Inválido!")
+    else:
+
+        # Cálculo do primeiro dígito
+        peso = 10
+        soma = 0
+        vetmult = []
+        for i in range(0, (len(cpfvet) - 2)):
+            vetmult.append(cpfvet[i] * peso)
+            soma += vetmult[i]
+            peso -= 1
+
+        digito1 = 0
+        resto = soma % 11
+        if resto >= 2:
+            digito1 = 11 - resto
+
+        peso = 11
+        soma = 0
+        vetmult = []
+        for i in range(0, len(cpfvet)-1):
+            vetmult.append(cpfvet[i] * peso)
+            soma += vetmult[i]
+            peso -= 1
+
+        digito2 = 0
+        resto = soma % 11
+        if resto >= 2:
+            digito2 = 11 - resto
+
+        if digito1 == cpfvet[9] and digito2 == cpfvet[10]:
+            print("CPF Válido")
+
+        else:
+            print("CPF Inválido!")
