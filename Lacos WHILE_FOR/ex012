@@ -1,0 +1,25 @@
+#1)
+for i in range(-100, 101):
+    print(i)
+
+#2)
+for i in range(0, 101, 2):
+    print(i)
+
+#3)
+num = int(input("Informe um número: "))
+fat = 1
+for i in range(num, 1, -1):
+    fat = fat * i
+
+print(fat)
+
+#4)
+valor = 1000
+anos_invest = 10
+taxa = 0.10
+
+for i in range(0, anos_invest):
+    valor = valor + (valor*taxa)
+
+print(valor)
