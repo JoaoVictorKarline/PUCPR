@@ -1,0 +1,29 @@
+vet = [64,65,12,13,14,15,21,33,34,35,36,37,100,91,9,93,94]
+sum = 0
+maior = 0
+vet2 = []
+idxarr = []
+idx = 0
+
+for c in range(0, len(vet)-1):
+    if vet[c+1] == (vet[c] + 1):
+        sum += 1
+    else:
+        sum += 1
+        if sum > maior:
+            maior = sum
+            idx = c - (sum - 1)
+            vet2 = []
+            idxarr = []
+            for i in range(idx, c+1):
+                vet2.append(vet[i])
+                idxarr.append(i)
+
+        sum = 0
+
+if sum > maior:
+    sum += 1
+    maior = sum
+
+print(vet2)
+print(idxarr)
