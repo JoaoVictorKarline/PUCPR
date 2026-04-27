@@ -1,0 +1,21 @@
+str = input()
+str_uper = ""
+str_downer = ""
+
+for i in range(0, len(str)):
+    if 97 <= ord(str[i]) <= 122:
+        letra = ord(str[i]) - 32
+        str_uper += chr(letra)
+    else:
+        str_uper += str[i]
+
+for i in range(0, len(str)):
+    if 65 <= ord(str[i]) <= 90:
+        letra = ord(str[i]) + 32
+        str_downer += chr(letra)
+    else:
+        str_downer += str[i]
+
+
+print(str_uper)
+print(str_downer)
