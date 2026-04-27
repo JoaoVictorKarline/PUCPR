@@ -1,0 +1,17 @@
+frase = input("Digite uma frase: ")
+
+letras_maiusculas = 0
+espacos_brancos = 0
+caracteres_especiais = 0
+
+for i in range(0, len(frase), 1):
+    if 65 <= ord(frase[i]) <= 90:
+        letras_maiusculas += 1
+    elif frase[i] == " ":
+        espacos_brancos += 1
+    elif ord(frase[i]) not in range(97, 123) and ord(frase[i]) not in range(48, 58):
+        caracteres_especiais += 1
+
+print(letras_maiusculas)
+print(espacos_brancos)
+print(caracteres_especiais)
