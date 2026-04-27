@@ -1,21 +1,17 @@
-str = input()
-str_uper = ""
-str_downer = ""
+texto = input()
+str_upper = ""
+str_lower = ""
 
-for i in range(0, len(str)):
-    if 97 <= ord(str[i]) <= 122:
-        letra = ord(str[i]) - 32
-        str_uper += chr(letra)
+for c in texto:
+    if 97 <= ord(c) <= 122:
+        str_upper += chr(ord(c) - 32)
     else:
-        str_uper += str[i]
+        str_upper += c
 
-for i in range(0, len(str)):
-    if 65 <= ord(str[i]) <= 90:
-        letra = ord(str[i]) + 32
-        str_downer += chr(letra)
+    if 65 <= ord(c) <= 90:
+        str_lower += chr(ord(c) + 32)
     else:
-        str_downer += str[i]
+        str_lower += c
 
-
-print(str_uper)
-print(str_downer)
+print(str_upper)
+print(str_lower)
