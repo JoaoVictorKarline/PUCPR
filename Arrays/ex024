@@ -1,0 +1,53 @@
+codigo_morse = {
+    ".-": "a",
+    "-...": "b",
+    "-.-.": "c",
+    "-..": "d",
+    ".": "e",
+    "..-.": "f",
+    "--.": "g",
+    "....": "h",
+    "..": "i",
+    ".---": "j",
+    "-.-": "k",
+    ".-..": "l",
+    "--": "m",
+    "-.": "n",
+    "---": "o",
+    ".--.": "p",
+    "--.-": "q",
+    ".-.": "r",
+    "...": "s",
+    "-": "t",
+    "..-": "u",
+    "...-": "v",
+    ".--": "w",
+    "-..-": "x",
+    "-.--": "y",
+    "--..": "z",
+    "-----": "0",
+    ".----": "1",
+    "..---": "2",
+    "...--": "3",
+    "....-": "4",
+    ".....": "5",
+    "-....": "6",
+    "--...": "7",
+    "---..": "8",
+    "----.": "9"
+}
+
+str = input("Digite uma frase em código morse (/ - Espaço): ").strip()
+str_analisada = ""
+str_convertida = ""
+
+for i in str:
+    if i != "/":
+        str_analisada += i
+    else:
+        str_convertida += codigo_morse[str_analisada]
+        str_analisada = ""
+
+str_convertida += codigo_morse[str_analisada]
+
+print(str_convertida)
