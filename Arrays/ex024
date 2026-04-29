@@ -1,53 +1,36 @@
 codigo_morse = {
-    ".-": "a",
-    "-...": "b",
-    "-.-.": "c",
-    "-..": "d",
-    ".": "e",
-    "..-.": "f",
-    "--.": "g",
-    "....": "h",
-    "..": "i",
-    ".---": "j",
-    "-.-": "k",
-    ".-..": "l",
-    "--": "m",
-    "-.": "n",
-    "---": "o",
-    ".--.": "p",
-    "--.-": "q",
-    ".-.": "r",
-    "...": "s",
-    "-": "t",
-    "..-": "u",
-    "...-": "v",
-    ".--": "w",
-    "-..-": "x",
-    "-.--": "y",
-    "--..": "z",
-    "-----": "0",
-    ".----": "1",
-    "..---": "2",
-    "...--": "3",
-    "....-": "4",
-    ".....": "5",
-    "-....": "6",
-    "--...": "7",
-    "---..": "8",
-    "----.": "9"
+    ".-": "a", "-...": "b", "-.-.": "c", "-..": "d",
+    ".": "e", "..-.": "f", "--.": "g", "....": "h",
+    "..": "i", ".---": "j", "-.-": "k", ".-..": "l",
+    "--": "m", "-.": "n", "---": "o", ".--.": "p",
+    "--.-": "q", ".-.": "r", "...": "s", "-": "t",
+    "..-": "u", "...-": "v", ".--": "w", "-..-": "x",
+    "-.--": "y", "--..": "z", "-----": "0", ".----": "1",
+    "..---": "2", "...--": "3", "....-": "4", ".....": "5",
+    "-....": "6", "--...": "7", "---..": "8", "----.": "9"
 }
 
-str = input("Digite uma frase em código morse (/ - Espaço): ").strip()
-str_analisada = ""
-str_convertida = ""
+entrada = input("Digite uma frase em código morse: ")
+simbolo_atual = ""
+resultado = ""
 
-for i in str:
-    if i != "/":
-        str_analisada += i
+for caractere in entrada:
+    if caractere != " ":
+        simbolo_atual += caractere
     else:
-        str_convertida += codigo_morse[str_analisada]
-        str_analisada = ""
+        if simbolo_atual != "":
+            if simbolo_atual in codigo_morse:
+                resultado += codigo_morse[simbolo_atual]
+            else:
+                resultado += " "
+            simbolo_atual = ""
+        else:
+            resultado += " "
 
-str_convertida += codigo_morse[str_analisada]
+if simbolo_atual != "":
+    if simbolo_atual in codigo_morse:
+        resultado += codigo_morse[simbolo_atual]
+    else:
+        resultado += " "
 
-print(str_convertida)
+print(f"Resultado: {resultado}")
