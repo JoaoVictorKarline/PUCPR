@@ -1,1 +1,77 @@
-Trabalho2
+# Dados (Dicionário).pkl
+# nome do cliente:
+# saldo:
+# Histórico de transações: []
+#cliente.pkl
+
+#Trabalho de Raciocínio algoritmico
+# Integrantes:
+
+#Senha Gerente: Admin@123
+
+import pickle
+
+cliente = {
+    "nome": "",
+    "saldo": 0,
+    "historico_transacoes": []
+}
+
+senha_gerente = "Admin@123"
+
+while True:
+    print("-- MENU PRINCIPAL --")
+    print("1 - Cliente")
+    print("2 - Gerente")
+    print("3 - Salvar transações")
+    print("4 - Sair")
+
+    op = int(input(": "))
+
+    if op == 4:
+        break
+
+    # elif op == 1:
+
+    elif op == 2:
+        # Autenticação Gerente (Validação da senha, limite 3 tentativas)
+
+        tentativas = 3
+        while tentativas > 0:
+            senha_digitada = input("Digite sua senha: ")
+            if senha_digitada == senha_gerente:
+                print("-- BEM VINDO! --")
+                while True:
+                    print("1 - Cadastrar ou alterar o nome do cliente")
+                    print("2 - Corrigir Saldo")
+                    print("3 - Consultar dados do cliente")
+                    print("4 - Listar últimas transações")
+                    print("5 - Menu Principal")
+
+                    op = int(input(": "))
+
+                    if op == 5:
+                        break
+
+                    elif op == 1:
+                        #Cadastra e cria um novo arquivo .pkl
+                        cliente["nome"] = input("Digite o nome do cliente: ")
+                        with open("cliente.pkl", "wb") as arquivo:
+                            pickle.dump(cliente, arquivo)
+                        print("Cliente cadastrado com sucesso!")
+                        break
+
+                break
+
+            else:
+                print("Senha incorreta!")
+                tentativas -= 1
+        if tentativas == 0:
+            print("Número máximo de tentativas atingidas.")
+
+
+
+    # elif op == 3:
+
+    else:
+        print("Opção invalida!")
