@@ -1,7 +1,7 @@
 #Trabalho de Raciocínio algoritmico
-# Integrantes:
+# Integrantes: João Knob, João Lenart, Lorenzo Gunha, André Felipe
 
-#Senha Gerente: Admin@123
+#Senha gerente: Admin@123
 
 import pickle
 import os
@@ -119,7 +119,6 @@ while True:
                     break
 
                 elif op == 1:
-                    # Cadastra e cria um novo arquivo .pkl
                     objeto["nome"] = input("Digite o nome do cliente: ")
                     print(f"Nome atualizado para: {objeto['nome']}")
 
