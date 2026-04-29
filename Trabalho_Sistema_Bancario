@@ -10,10 +10,11 @@
 #Senha Gerente: Admin@123
 
 import pickle
+import os
 
 cliente = {
     "nome": "",
-    "saldo": 0,
+    "saldo": 0.0,
     "historico_transacoes": []
 }
 
@@ -58,17 +59,28 @@ while True:
                         cliente["nome"] = input("Digite o nome do cliente: ")
                         with open("cliente.pkl", "wb") as arquivo:
                             pickle.dump(cliente, arquivo)
-                        print("Cliente cadastrado com sucesso!")
-                        break
+                        print("\nCliente cadastrado com sucesso!\n")
+
+                    elif op == 2:
+                        cliente["saldo"] = float(input("Digite o saldo atualizado do cliente: "))
+                        with open("cliente.pkl", "wb") as arquivo:
+                            pickle.dump(cliente, arquivo)
+                        print("\nSaldo atualizado com sucesso!\n")
+
+                    elif op == 3:
+                        with open("cliente.pkl", "rb") as arquivo:
+                            objeto = pickle.load(arquivo)
+                            for i in objeto:
+                                print(f"{objeto[i]}")
 
                 break
 
             else:
                 print("Senha incorreta!")
                 tentativas -= 1
+
         if tentativas == 0:
             print("Número máximo de tentativas atingidas.")
-
 
 
     # elif op == 3:
