@@ -69,8 +69,10 @@ while True:
 
             elif op == 4:
                 print("-- SIMULAÇÃO EM 12 MESES --")
+                saldo_novo = objeto['saldo']
                 for i in range(0, 12):
-                    rendimento = objeto['saldo'] * 0.011
+                    saldo_novo *= 1.011
+                    print(f"Mês {i+1}: {saldo_novo:.2f}")
 
             elif op == 5:
                 for transacao in objeto['historico_transacoes']:
