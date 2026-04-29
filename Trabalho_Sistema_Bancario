@@ -8,10 +8,10 @@ import os
 
 if os.path.exists("cliente.pkl"):
     with open("cliente.pkl", "rb") as arquivo:
-        objeto = pickle.load(arquivo)
+        cliente = pickle.load(arquivo)
 else:
 
-    objeto = {
+    cliente = {
         "nome": "",
         "saldo": 0.0,
         "historico_transacoes": []
@@ -30,15 +30,15 @@ while True:
 
     if op == 4:
         with open("cliente.pkl", "wb") as arquivo:
-            pickle.dump(objeto, arquivo)
+            pickle.dump(cliente, arquivo)
         print("Dados salvos.")
         break
 
     elif op == 1:
-        if objeto["nome"] == "":
+        if cliente["nome"] == "":
             print("Nenhum cliente cadastrado. Acesse o menu do gerente primeiro.")
         else:
-            print(f"SEJA BEM VINDO {objeto['nome']}")
+            print(f"SEJA BEM VINDO {cliente['nome']}")
             while True:
                 print("1 - Consultar saldo")
                 print("2 - Depositar valor")
@@ -53,34 +53,34 @@ while True:
                     break
 
                 elif op == 1:
-                    print(f"Seu saldo é de: {objeto['saldo']}")
+                    print(f"Seu saldo é de: {cliente['saldo']}")
 
                 elif op == 2:
                     valor_deposito = float(input("Digite o valor do depósito: R$ "))
-                    objeto['saldo'] += valor_deposito
-                    print(f"Seu novo saldo é de {objeto['saldo']}")
-                    objeto['historico_transacoes'].append(valor_deposito)
+                    cliente['saldo'] += valor_deposito
+                    print(f"Seu novo saldo é de {cliente['saldo']}")
+                    cliente['historico_transacoes'].append(valor_deposito)
 
                 elif op == 3:
                     valor_sacado = float(input("Digite o valor para ser sacado: R$ "))
-                    if valor_sacado > objeto['saldo']:
+                    if valor_sacado > cliente['saldo']:
                         print("Saldo insuficiente.")
                     else:
-                        objeto['saldo'] -= valor_sacado
-                        print(f"Seu novo saldo é de {objeto['saldo']}")
-                        objeto['historico_transacoes'].append(-valor_sacado)
+                        cliente['saldo'] -= valor_sacado
+                        print(f"Seu novo saldo é de {cliente['saldo']}")
+                        cliente['historico_transacoes'].append(-valor_sacado)
 
                 elif op == 4:
                     print("-- SIMULAÇÃO EM 12 MESES --")
-                    saldo_novo = objeto['saldo']
+                    saldo_novo = cliente['saldo']
                     for i in range(0, 12):
                         saldo_novo *= 1.011
                         print(f"Mês {i+1}: {saldo_novo:.2f}")
-                    print(f"\nRendimento total: R$ {saldo_novo - objeto['saldo']:.2f}\n")
+                    print(f"\nRendimento total: R$ {saldo_novo - cliente['saldo']:.2f}\n")
 
                 elif op == 5:
                     print("-- EXTRATO --")
-                    for transacao in objeto['historico_transacoes']:
+                    for transacao in cliente['historico_transacoes']:
                         if transacao > 0:
                             print(f"Depósito: +R$ {transacao}")
                         else:
@@ -119,21 +119,21 @@ while True:
                     break
 
                 elif op == 1:
-                    objeto["nome"] = input("Digite o nome do cliente: ")
-                    print(f"Nome atualizado para: {objeto['nome']}")
+                    cliente["nome"] = input("Digite o nome do cliente: ")
+                    print(f"Nome atualizado para: {cliente['nome']}")
 
                 elif op == 2:
-                    objeto["saldo"] = float(input("Digite o saldo atualizado do cliente: "))
-                    print(f"Saldo atualizado para: R$ {objeto['saldo']:.2f}")
+                    cliente["saldo"] = float(input("Digite o saldo atualizado do cliente: "))
+                    print(f"Saldo atualizado para: R$ {cliente['saldo']:.2f}")
 
                 elif op == 3:
                     print("-- DADOS DO CLIENTE --")
-                    print(f"Nome:  {objeto['nome']}")
-                    print(f"Saldo: R$ {objeto['saldo']:.2f}")
-                    print(f"Transações registradas: {len(objeto['historico_transacoes'])}")
+                    print(f"Nome:  {cliente['nome']}")
+                    print(f"Saldo: R$ {cliente['saldo']:.2f}")
+                    print(f"Transações registradas: {len(cliente['historico_transacoes'])}")
 
                 elif op == 4:
-                    for transacao in objeto['historico_transacoes']:
+                    for transacao in cliente['historico_transacoes']:
                         if transacao > 0:
                             print(f"Depósito: +R$ {transacao}")
                         else:
@@ -141,7 +141,7 @@ while True:
 
     elif op == 3:
         with open("cliente.pkl", "wb") as arquivo:
-            pickle.dump(objeto, arquivo)
+            pickle.dump(cliente, arquivo)
         print("Dados salvos com sucesso!")
     else:
         print("Opção invalida!")
