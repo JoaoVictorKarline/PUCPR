@@ -1,0 +1,22 @@
+from machine import Pin
+from utime import sleep
+
+leds = [
+    Pin(15, Pin.OUT),  # bit 0
+    Pin(12, Pin.OUT),  # bit 1
+    Pin(14, Pin.OUT),  # bit 2
+    Pin(13, Pin.OUT)   # bit 3
+]
+
+while True:
+    for numero in range(16):
+
+        for i in range(4):
+
+            if numero & (1 << i):
+                leds[i].on()
+            else:
+                leds[i].off()
+
+        print(numero)
+        sleep(1)
