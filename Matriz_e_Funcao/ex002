@@ -1,0 +1,29 @@
+import random
+
+dic = {
+    "A": 0
+    , "B": 1
+    , "C": 2
+    , "D": 3
+    , "E": 4
+}
+matriz = []
+
+for i in range(5):
+    matriz.append([])
+    for j in range(5):
+        matriz[i].append(random.randint(0, 1))
+
+for i in range(5):
+    print(f"{matriz[i]}\n")
+
+while True:
+    jogada = input("Informe uma posição: ").upper()
+    i = int(dic[jogada[0]])
+    j = int(jogada[1]) - 1
+
+    if matriz[i][j] == 0:
+        continue
+    else:
+        print("Perdeu!")
+        break
