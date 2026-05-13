@@ -1,114 +1,55 @@
 velha = []
-
 dic = {
-    "A": 0,
-    "B": 1,
-    "C": 2
+    "A":0,
+    "B":1,
+    "C":2
 }
 
-# Criando matriz
+template = [["#", "#", "#"], ["#", "#", "#"], ["#", "#", "#"]]
+for z in template:
+    print(z)
+
 for i in range(3):
     velha.append([])
-
     for j in range(3):
         velha[i].append("")
-
-jogadas = 0
-
+v = 0
 while True:
-
-    # Mostrar tabuleiro
-    print("\n   1   2   3")
-
-    for i in range(3):
-        letra = list(dic.keys())[i]
-
-        print(letra, end=" ")
-
-        for j in range(3):
-
-            if velha[i][j] == "":
-                print("#", end=" ")
-            else:
-                print(velha[i][j], end=" ")
-
-            if j < 2:
-                print("|", end=" ")
-
-        print()
-
-    # ---------------- P1 ----------------
-    p1o = input("\nP1 Informe a posição: ").upper()
-
-    k = dic[p1o[0]]
+    p1o = input("P1 Informe a posição: ").upper()
+    k = int(dic[p1o[0]])
     j = int(p1o[1]) - 1
-
-    # Verificar posição ocupada
-    if velha[k][j] != "":
-        print("Posição ocupada!")
-        continue
-
     velha[k][j] = "O"
+    v+=1
+    if v == 9:
+        break
+    p2x = input("P2 Informe a posição: ").upper()
+    k = int(dic[p2x[0]])
+    j = int(p2x[1]) - 1
+    velha[k][j] = "X"
+    v+=1
 
-    jogadas += 1
-
-    # Verificar vitória P1
     p1 = False
+    p2 = False
+    for i in range(3):
+        if (velha[i][0] == "O" and velha[i][1] == "O" and velha[i][2] == "O")\
+                or (velha[0][i] == "O" and velha[1][i] == "O" and velha[2][i] == "O")\
+                or (velha[0][0] == "O" and velha[1][1] == "O" and velha[2][2] == "O")\
+                or (velha[2][0] == "O" and velha[1][1] == "O" and velha[0][2] == "O"):
+                    p1 = True
 
-    for x in range(3):
+        elif (velha[i][0] == "X" and velha[i][1] == "X" and velha[i][2] == "X")\
+                or (velha[0][i] == "X" and velha[1][i] == "X" and velha[2][i] == "X")\
+                or (velha[0][0] == "X" and velha[1][1] == "X" and velha[2][2] == "X")\
+                or (velha[2][0] == "X" and velha[1][1] == "X" and velha[0][2] == "X"):
+                    p2 = True
 
-        if (velha[x][0] == "O" and velha[x][1] == "O" and velha[x][2] == "O") \
-                or (velha[0][x] == "O" and velha[1][x] == "O" and velha[2][x] == "O"):
-            p1 = True
-
-    # Diagonais
-    if (velha[0][0] == "O" and velha[1][1] == "O" and velha[2][2] == "O") \
-            or (velha[2][0] == "O" and velha[1][1] == "O" and velha[0][2] == "O"):
-        p1 = True
 
     if p1:
-        print("\nP1 Ganhou!")
+        print("P1 Ganhou")
+        break
+    elif p2:
+        print("P2 Ganhou")
         break
 
-    # Empate
-    if jogadas == 9:
-        print("\nEmpate!")
-        break
-
-    # ---------------- P2 ----------------
-    p2x = input("\nP2 Informe a posição: ").upper()
-
-    k = dic[p2x[0]]
-    j = int(p2x[1]) - 1
-
-    # Verificar posição ocupada
-    if velha[k][j] != "":
-        print("Posição ocupada!")
-        continue
-
-    velha[k][j] = "X"
-
-    jogadas += 1
-
-    # Verificar vitória P2
-    p2 = False
-
-    for x in range(3):
-
-        if (velha[x][0] == "X" and velha[x][1] == "X" and velha[x][2] == "X") \
-                or (velha[0][x] == "X" and velha[1][x] == "X" and velha[2][x] == "X"):
-            p2 = True
-
-    # Diagonais
-    if (velha[0][0] == "X" and velha[1][1] == "X" and velha[2][2] == "X") \
-            or (velha[2][0] == "X" and velha[1][1] == "X" and velha[0][2] == "X"):
-        p2 = True
-
-    if p2:
-        print("\nP2 Ganhou!")
-        break
-
-    # Empate
-    if jogadas == 9:
-        print("\nEmpate!")
-        break
+if not p1 and not p2:
+    print("Empate")
