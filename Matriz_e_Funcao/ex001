@@ -1,0 +1,29 @@
+matriz = []
+import random
+soma = 0
+maior = 0
+media = 0
+qtde = 0
+
+for i in range(5):
+    matriz.append([])
+    for j in range(5):
+        matriz[i].append(random.randint(0,100))
+
+for i in range(5):
+    soma = 0
+    maior = 0
+    for j in range(5):
+        soma += matriz[j][i]
+        if matriz[i][j]>maior:
+            maior = matriz[i][j]
+        if i == j:
+            media += matriz[i][j]
+            qtde += 1
+
+media = media/qtde
+
+print(soma)
+print(f"O maior é: {maior}")
+print(matriz)
+print(f"A média das colunas é: {media}")
