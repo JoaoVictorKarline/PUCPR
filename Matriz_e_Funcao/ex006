@@ -1,0 +1,7 @@
+def somavariaveis(a, b, c):
+    return a+b+c
+
+a = 15
+b = 20
+c = 3
+print(somavariaveis(a, b, c))
