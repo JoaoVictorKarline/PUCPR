@@ -1,0 +1,11 @@
+def max(vet):
+    maior = vet[0]
+    for i in range(0, len(vet)):
+        if vet[i] > maior:
+            maior = vet[i]
+    return maior
+
+vetor = [99, 1, 2, 3, 77, 5, 6666, 999]
+maior = max(vetor)
+print(maior)
+print(vetor)
