@@ -1,0 +1,13 @@
+def low(str):
+    strr = ""
+    for i in range(0, len(str)):
+        if 65 <= ord(str[i]) <= 90:
+            strr += chr(ord(str[i]) + 32)
+        else:
+            strr += str[i]
+
+    return strr
+
+ex = "XUXA"
+min = low(ex)
+print(min)
