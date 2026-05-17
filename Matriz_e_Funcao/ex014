@@ -1,0 +1,12 @@
+def ischar(str):
+    for i in str:
+        if not ((65 <= ord(i) <= 91) or (97 <= ord(i) <= 122)):
+            return False
+    return True
+
+
+ex = "xuXa!234abcde"
+ex2 = "jorgedfgEDFFDGDDDxxx"
+
+print(ischar(ex))
+print(ischar(ex2))
