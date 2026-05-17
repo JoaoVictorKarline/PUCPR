@@ -1,0 +1,12 @@
+def inverte_vetor(vet):
+    for i in range(0, len(vet) // 2):
+        troca = len(vet) - i - 1
+        aux = vet[i]
+        vet[i] = vet[troca]
+        vet[troca] = aux
+
+
+vet = [0, 1, 2, 3, 7, 5, 6, 9]
+inverte_vetor(vet)
+print(vet)
+
