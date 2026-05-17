@@ -1,0 +1,9 @@
+def exist(vet, num):
+    for i in vet:
+        if i == num:
+            return True
+    return False
+
+n = 122
+vet = [10, 5, 3, 15, 23, 122]
+print(exist(vet, n))
