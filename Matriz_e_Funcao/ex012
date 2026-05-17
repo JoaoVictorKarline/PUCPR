@@ -1,0 +1,13 @@
+def upp(str):
+    strr = ""
+    for i in range(0, len(str)):
+        if 97 <= ord(str[i]) <= 122:
+            strr += chr(ord(str[i]) - 32)
+        else:
+            strr += str[i]
+
+    return strr
+
+ex = "xuXa!234abcde"
+mai = upp(ex)
+print(mai)
