@@ -1,0 +1,11 @@
+def min(vet):
+    menor = vet[0]
+    for i in range(1, len(vet)):
+        if vet[i] < menor:
+            menor = vet[i]
+    return menor
+
+vetor = [99, 1, 0, 2, 3, 77, 5, -5, 6666, 999]
+menor = min(vetor)
+print(menor)
+print(vetor)
