@@ -1,0 +1,14 @@
+def digit(str):
+    for i in str:
+        if 48 <= ord(i) <= 57:
+            continue
+        else:
+            return False
+    return True
+
+
+ex = "xuXa!234abcde"
+ex2 = "123456"
+
+print(digit(ex))
+print(digit(ex2))
