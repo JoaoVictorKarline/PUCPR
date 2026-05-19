@@ -1,0 +1,39 @@
+def validacpf(var):
+    var = var.strip().replace("-", "").replace(".", "")
+    sequencia = 0
+
+    for i in range(0, len(var)):
+        if var[i] not in "0123456789":
+            return False
+        if var[i] == var[0]:
+            sequencia += 1
+
+    if len(var) != 11:
+        return False
+    if sequencia == 11:
+        return False
+
+    # Validação primeiro dígito
+    p1 = 0
+    z = 0
+    for i in range(10, 1, -1):
+        p1 += i * int(var[z])
+        z += 1
+    p1 = p1 % 11
+    p1 = 0 if p1 < 2 else 11 - p1
+
+    # Validação segundo dígito
+    p2 = 0
+    z = 0
+    for i in range(11, 1, -1):
+        p2 += i * int(var[z])
+        z += 1
+    p2 = p2 % 11
+    p2 = 0 if p2 < 2 else 11 - p2
+
+    if p1 != int(var[9]) or p2 != int(var[10]):
+        return False
+    return True
+
+cpf = "111.882.829-13"
+print(validacpf(cpf))
