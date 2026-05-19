@@ -1,22 +1,139 @@
-from machine import Pin
-from utime import sleep
 
-leds = [
-    Pin(15, Pin.OUT),  # bit 0
-    Pin(12, Pin.OUT),  # bit 1
-    Pin(14, Pin.OUT),  # bit 2
-    Pin(13, Pin.OUT)   # bit 3
-]
+import network
+import time
+import ubinascii
+
+SCAN_INTERVAL = 10  # segundos
+
+TRUSTED_APS = {
+    "MinhaRedeWiFi": "AA:BB:CC:11:22:33",
+    "EmpresaWiFi": "12:34:56:78:90:AB"
+}
+
+# ============================================
+# WIFI
+# ============================================
+
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+
+# ============================================
+# FUNÇÕES
+# ============================================
+
+def format_bssid(bssid_bytes):
+    """
+    Converte MAC bytes -> string legível
+    """
+    return ':'.join('{:02X}'.format(b) for b in bssid_bytes)
+
+def scan_networks():
+    """
+    Faz scan das redes Wi-Fi próximas
+    """
+    try:
+        aps = wlan.scan()
+        return aps
+
+    except Exception as e:
+        print("Erro no scan:", e)
+        return []
+
+def detect_evil_twin(aps):
+    """
+    Detecta possível Evil Twin
+    """
+
+    found_networks = {}
+
+    for ap in aps:
+
+        ssid = ap[0].decode('utf-8')
+        bssid = format_bssid(ap[1])
+        channel = ap[2]
+        rssi = ap[3]
+
+        print("--------------------------------")
+        print("SSID:", ssid)
+        print("BSSID:", bssid)
+        print("Canal:", channel)
+        print("RSSI:", rssi)
+
+        # =====================================
+        # DETECÇÃO 1:
+        # Mesmo SSID aparecendo várias vezes
+        # =====================================
+
+        if ssid not in found_networks:
+            found_networks[ssid] = []
+
+        found_networks[ssid].append(bssid)
+
+        # =====================================
+        # DETECÇÃO 2:
+        # BSSID diferente do esperado
+        # =====================================
+
+        if ssid in TRUSTED_APS:
+
+            expected_bssid = TRUSTED_APS[ssid]
+
+            if bssid != expected_bssid:
+
+                print("")
+                print("########## ALERTA ##########")
+                print("Possível EVIL TWIN detectado!")
+                print("SSID:", ssid)
+                print("BSSID esperado :", expected_bssid)
+                print("BSSID suspeito :", bssid)
+                print("RSSI:", rssi)
+                print("############################")
+                print("")
+
+    # =====================================
+    # DETECÇÃO 3:
+    # SSID duplicado
+    # =====================================
+
+    for ssid, bssids in found_networks.items():
+
+        unique_bssids = set(bssids)
+
+        if len(unique_bssids) > 1:
+
+            print("")
+            print("########## ALERTA ##########")
+            print("SSID duplicado encontrado")
+            print("SSID:", ssid)
+
+            for mac in unique_bssids:
+                print("BSSID:", mac)
+
+            print("############################")
+            print("")
+
+# ============================================
+# LOOP PRINCIPAL
+# ============================================
+
+print("")
+print("====================================")
+print(" EVIL TWIN DETECTOR INICIADO ")
+print("====================================")
+print("")
 
 while True:
-    for numero in range(16):
 
-        for i in range(4):
+    print("")
+    print("Escaneando redes Wi-Fi...")
+    print("")
 
-            if numero & (1 << i):
-                leds[i].on()
-            else:
-                leds[i].off()
+    aps = scan_networks()
 
-        print(numero)
-        sleep(1)
+    detect_evil_twin(aps)
+
+    print("")
+    print("Próximo scan em", SCAN_INTERVAL, "segundos")
+    print("")
+
+    time.sleep(SCAN_INTERVAL)
