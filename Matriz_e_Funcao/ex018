@@ -1,0 +1,23 @@
+def freq(vet):
+    matriz = []
+    aux = []
+    for i in range(0, len(vet)):
+        soma = 0
+        aux.append(vet[i])
+        exist = False
+        for x in range(0, len(matriz)):
+            if vet[i] == matriz[x][0]:
+                exist = True
+        if not exist:
+            for j in range(0, len(vet)):
+                if vet[j] == vet[i]:
+                    soma += 1
+
+            aux.append(soma)
+            matriz.append(aux)
+        aux = []
+
+    return matriz
+
+a = [1, 1, 2, 2, 2, 4, 6, 6, 7, 7, 7, 7, 7, 7, 7]
+print(freq(a))
