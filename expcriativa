@@ -1,68 +1,83 @@
+int tela = 0;
+int acertos = 0;
+float x = 0;
+float xc = 600;
+float yc = 400;
+PFont font;
+PFont font2;
+int drop = 1;
 PImage[] fundos;
-
 int atual = 0;
 int proximo = 1;
-
 float alphaFade = 0;
-float velocidade = 2;
-
+float velocidade = 3;
 int tempoTroca = 3000;
 int ultimoTempo;
-
 int botaoL = 220;
 int botaoA = 60;
 
-void setup() {
-  size(1000, 600);
+void setup(){
+ tela = 0;
+ size(1200,800);
+ font = createFont("Century Gothic Bold", 48);
+ textFont(font);
+ font2 = createFont("Century Gothic", 22);
+ Mapa = loadImage("Mapa.png");
+ MapaAzul = loadImage("MapaAzul.png");;
+ MapaVermelho = loadImage("MapaVermelho.png");;
+ MapaVerde = loadImage("MapaVerde.png");;
+ MapaLaranja = loadImage("MapaLaranja.png");;
+ MapaRoxo = loadImage("MapaRoxo.png");;
+ MapaCiano = loadImage("MapaCiano.png");;
+ Pampa1 = loadImage("pampa.png");;
+ Pampa2 = loadImage("pampa2.png");;
+ Pampa3 = loadImage("pampa3.png");;
+ Mata1 = loadImage("mataAtlantica.jpg");;
+ Mata2 = loadImage("mataAtlantica2.jpg");;
+ Mata3 = loadImage("mataAtlantica3.jpg");;
+ fundos = new PImage[6];
+ fundos[0] = loadImage("foto1.jpg");
+ fundos[1] = loadImage("foto2.jpg");
+ fundos[2] = loadImage("foto3.jpg");
+ fundos[3] = loadImage("foto4.jpg");
+ fundos[4] = loadImage("foto5.jpg");
+ fundos[5] = loadImage("foto6.jpg");
 
-  fundos = new PImage[3];
-  fundos[0] = loadImage("foto1.jpg");
-  fundos[1] = loadImage("foto2.jpg");
-  fundos[2] = loadImage("foto3.jpg");
+ ultimoTempo = millis();
 
-  ultimoTempo = millis();
-
-  textAlign(CENTER, CENTER);
+ textAlign(CENTER, CENTER);
 }
 
-void draw() {
-  image(fundos[atual], 0, 0, width, height);
-
-  tint(255, alphaFade);
-  image(fundos[proximo], 0, 0, width, height);
-  noTint();
-
-  fill(0, 140);
-  noStroke();
-  rect(0, 0, width, height);
-  fill(255);
-
-  textSize(52);
-  text("APLICATIVO BIOMAS", width/2, height/2 - 80);
-
-  textSize(22);
-  text("Desenvolvedores: DSKJKJDHJK", width/2, height/2 - 20);
-
-  desenharBotao();
-
-  if (millis() - ultimoTempo > tempoTroca) {
-
-    alphaFade += velocidade;
-
-    if (alphaFade >= 255) {
-
-      alphaFade = 0;
-
-      atual = proximo;
-      proximo++;
-
-      if (proximo >= fundos.length) {
-        proximo = 0;
-      }
-
-      ultimoTempo = millis();
-    }
-  }
+void draw(){
+ textFont(font);
+ if(tela == 0){tela0();}
+ else if(tela == 1){tela1();}
+ else if(tela == 211){tela211();}
+ else if(tela == 212){tela212();}
+ else if(tela == 221){tela221();}
+ else if(tela == 222){tela222();}
+ else if(tela == 231){tela231();}
+ else if(tela == 232){tela232();}
+ else if(tela == 241){tela241();}
+ else if(tela == 242){tela242();}
+ else if(tela == 251){tela251();}
+ else if(tela == 252){tela252();}
+ else if(tela == 261){tela261();}
+ else if(tela == 262){tela262();}
+ else if(tela == 31){tela31();}
+ else if(tela == 32){tela32();}
+ else if(tela == 33){tela33();}
+ else if(tela == 34){tela34();}
+ else if(tela == 35){tela35();}
+ else if(tela == 36){tela36();}
+ else if(tela == 37){tela37();}
+ else if(tela == 38){tela38();}
+ else if(tela == 39){tela39();}
+ else if(tela == 310){tela310();}
+ else if(tela == 311){tela311();}
+ else if(tela == 312){tela312();}
+ else if(tela == 4){tela4();}
+ 
 }
 
 void desenharBotao() {
@@ -84,13 +99,515 @@ void desenharBotao() {
   textSize(24);
   text("COMEÇAR", width/2, y + botaoA/2);
 }
+void tela0() {
+  telaBase();
+  image(fundos[atual], 0, 0, width, height);
 
-void mousePressed() {
-
-  int x = width/2 - botaoL/2;
-  int y = height/2 + 50;
-
-  if (mouseX > x && mouseX < x + botaoL &&
-      mouseY > y && mouseY < y + botaoA) {
+  tint(255, alphaFade);
+  image(fundos[proximo], 0, 0, width, height);
+  noTint();
+  
+  fill(0, 140);
+  noStroke();
+  rect(0, 0, width, height);
+  
+  fill(255);
+  
+  textSize(52);
+  text("APLICATIVO BIOMAS", width/2, height/2 - 80);
+  
+  textSize(22);
+  text("Desenvolvedores: DSKJKJDHJK", width/2, height/2 - 20);
+  
+  desenharBotao();
+  
+  if (millis() - ultimoTempo > tempoTroca) {
+  
+    alphaFade += velocidade;
+  
+    if (alphaFade >= 255) {
+  
+      alphaFade = 0;
+  
+      atual = proximo;
+      proximo++;
+  
+      if (proximo >= fundos.length) {
+        proximo = 0;
+      }
+  
+      ultimoTempo = millis();
+    }
   }
+  }
+
+void tela1() {
+  background(branco2);
+  linhas(x, branco2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  textSize(80);
+  textAlign(CENTER);
+  fill(#000000);
+  botaoUn2(xc-445, yc+300, 160, 50, vermelho2, vermelho2S, "< VOLTAR");
+  botaoUn2(xc+460, yc+300, 140, 50, verde2, verde2S, "QUIZ >");
+  botaoLeg(xc-460, yc+200, 50, 50, azul1, azul1S);
+  botaoLeg(xc-460, yc+140, 50, 50, vermelho1, vermelho1S);
+  botaoLeg(xc-460, yc+80, 50, 50, verde1, verde1S);
+  botaoLeg(xc-460, yc+20, 50, 50, laranja1, laranja1S);
+  botaoLeg(xc-460, yc-40, 50, 50, roxo1, roxo1S);
+  botaoLeg(xc-460, yc-100, 50, 50, ciano1, ciano1S);
+  textAlign(LEFT);
+  textSize(30);
+  text("Pampa",183,613);
+  text("Cerrado",180,613-60);
+  text("Amazônia",180,613-120);
+  text("Caatinga",180,613-180);
+  text("Pantanal",183,613-240);
+  text("Mata Atlântica",183,615-300);
+  textAlign(CENTER);
+  if (mouseX>=115 && mouseX<=165 && mouseY>=575 && mouseY<=625) {image(MapaAzul, 300+120, 100);}
+  else if (mouseX>=115 && mouseX<=165 && mouseY>=515 && mouseY<=565) {image(MapaVermelho, 300+120, 100);}
+  else if (mouseX>=115 && mouseX<=165 && mouseY>=515-60 && mouseY<=565-60) {image(MapaVerde, 300+120, 100);}
+  else if (mouseX>=115 && mouseX<=165 && mouseY>=515-120 && mouseY<=565-120) {image(MapaLaranja, 300+120, 100);}
+  else if (mouseX>=115 && mouseX<=165 && mouseY>=515-180 && mouseY<=565-180) {image(MapaRoxo, 300+120, 100);}
+  else if (mouseX>=115 && mouseX<=165 && mouseY>=515-240 && mouseY<=565-240) {image(MapaCiano, 300+120, 100);}
+  else{image(Mapa, 300+120, 100);}
+}
+
+
+void tela221(){
+  background(vermelho2);
+  linhas(x, vermelho2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botaoUn2(xc-445, yc+300, 140, 50, vermelho2, vermelho2S, "< MAPA");
+  botaoUn2(xc+460, yc+300, 140, 50, verde2, verde2S, "QUIZ >");
+  botaoUn2(xc, yc+300, 160, 50, azul2, azul2S, "IMAGENS");
+  fill(vermelho2D);
+  stroke(#000000);
+  strokeWeight(4);
+  rect(80, 80, 240, 100, 40);
+  textAlign(CENTER, CENTER);
+  fill(#000000);
+  textSize(50);
+  text("Cerrado", 200, 130);
+  textSize(40);
+  textFont(font2);
+  textAlign(LEFT, UP);
+  text("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 90, 200, 230, 900);
+  text("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 350, 80, 230, 900);
+  text("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 610, 80, 230, 900);
+  textFont(font);
+  dropDown(xc+400,yc-50,200,550,laranja1,laranja1S,roxo1,roxo1S,azul1,azul1S,ciano1,ciano1S,verde1,verde1S,"Caatinga","Pantanal","Pampa","Mata Atlântica","Amazônia");
+  if (drop == 3) {}
+  else if (drop != 1){drop = 1;}
+}
+
+void tela222(){
+  background(vermelho2);
+  linhas(x, vermelho2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botaoUn2(xc-445, yc+300, 140, 50, vermelho2, vermelho2S, "< MAPA");
+  botaoUn2(xc+460, yc+300, 140, 50, verde2, verde2S, "QUIZ >");
+  botaoUn2(xc, yc+300, 120, 50, azul2, azul2S, "INFO");
+  fill(vermelho2D);
+  stroke(#000000);
+  strokeWeight(4);
+  rect(80, 80, 240, 100, 40);
+  textAlign(CENTER, CENTER);
+  fill(#000000);
+  textSize(50);
+  text("Cerrado", 200, 130);
+}
+
+void tela231(){
+  background(verde2);
+  linhas(x, verde2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botaoUn2(xc-445, yc+300, 140, 50, vermelho2, vermelho2S, "< MAPA");
+  botaoUn2(xc+460, yc+300, 140, 50, verde2, verde2S, "QUIZ >");
+  botaoUn2(xc, yc+300, 160, 50, azul2, azul2S, "IMAGENS");
+  fill(verde2D);
+  stroke(#000000);
+  strokeWeight(4);
+  rect(70, 80, 260, 100, 40);
+  textAlign(CENTER, CENTER);
+  fill(#000000);
+  textSize(50);
+  text("Amazônia", 200, 130);
+  textSize(40);
+  textFont(font2);
+  textAlign(LEFT, UP);
+  text("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 90, 200, 230, 900);
+  text("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 350, 80, 230, 900);
+  text("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 610, 80, 230, 900);
+  textFont(font);
+  dropDown(xc+400,yc-50,200,550,laranja1,laranja1S,roxo1,roxo1S,azul1,azul1S,ciano1,ciano1S,vermelho1,vermelho1S,"Caatinga","Pantanal","Pampa","Mata Atlântica","Cerrado");
+  if (drop == 4) {}
+  else if (drop != 1){drop = 1;}
+}
+
+void tela232(){
+  background(verde2);
+  linhas(x, verde2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botaoUn2(xc-445, yc+300, 140, 50, vermelho2, vermelho2S, "< MAPA");
+  botaoUn2(xc+460, yc+300, 140, 50, verde2, verde2S, "QUIZ >");
+  botaoUn2(xc, yc+300, 120, 50, azul2, azul2S, "INFO");
+  fill(verde2D);
+  stroke(#000000);
+  strokeWeight(4);
+  rect(70, 80, 260, 100, 40);
+  textAlign(CENTER, CENTER);
+  fill(#000000);
+  textSize(50);
+  text("Amazônia", 200, 130);
+}
+
+void tela241(){
+  background(laranja2);
+  linhas(x, laranja2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botaoUn2(xc-445, yc+300, 140, 50, vermelho2, vermelho2S, "< MAPA");
+  botaoUn2(xc+460, yc+300, 140, 50, verde2, verde2S, "QUIZ >");
+  botaoUn2(xc, yc+300, 160, 50, azul2, azul2S, "IMAGENS");
+  fill(laranja2D);
+  stroke(#000000);
+  strokeWeight(4);
+  rect(75, 80, 250, 100, 40);
+  textAlign(CENTER, CENTER);
+  fill(#000000);
+  textSize(50);
+  text("Caatinga", 200, 130);
+  textSize(40);
+  textFont(font2);
+  textAlign(LEFT, UP);
+  text("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 90, 200, 230, 900);
+  text("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 350, 80, 230, 900);
+  text("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 610, 80, 230, 900);
+  textFont(font);
+  dropDown(xc+400,yc-50,200,550,verde1,verde1S,roxo1,roxo1S,azul1,azul1S,ciano1,ciano1S,vermelho1,vermelho1S,"Amazônia","Pantanal","Pampa","Mata Atlântica","Cerrado");
+  if (drop == 5) {}
+  else if (drop != 1){drop = 1;}
+}
+
+void tela242(){
+  background(laranja2);
+  linhas(x, laranja2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botaoUn2(xc-445, yc+300, 140, 50, vermelho2, vermelho2S, "< MAPA");
+  botaoUn2(xc+460, yc+300, 140, 50, verde2, verde2S, "QUIZ >");
+  botaoUn2(xc, yc+300, 120, 50, azul2, azul2S, "INFO");
+  fill(laranja2D);
+  stroke(#000000);
+  strokeWeight(4);
+  rect(75, 80, 250, 100, 40);
+  textAlign(CENTER, CENTER);
+  fill(#000000);
+  textSize(50);
+  text("Caatinga", 200, 130);
+}
+
+void tela251(){
+  background(roxo2);
+  linhas(x, roxo2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botaoUn2(xc-445, yc+300, 140, 50, vermelho2, vermelho2S, "< MAPA");
+  botaoUn2(xc+460, yc+300, 140, 50, verde2, verde2S, "QUIZ >");
+  botaoUn2(xc, yc+300, 160, 50, azul2, azul2S, "IMAGENS");
+  fill(roxo2D);
+  stroke(#000000);
+  strokeWeight(4);
+  rect(75, 80, 250, 100, 40);
+  textAlign(CENTER, CENTER);
+  fill(#000000);
+  textSize(50);
+  text("Pantanal", 200, 130);
+  textSize(40);
+  textFont(font2);
+  textAlign(LEFT, UP);
+  text("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 90, 200, 230, 900);
+  text("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 350, 80, 230, 900);
+  text("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 610, 80, 230, 900);
+  textFont(font);
+  dropDown(xc+400,yc-50,200,550,verde1,verde1S,laranja1,laranja1S,azul1,azul1S,ciano1,ciano1S,vermelho1,vermelho1S,"Amazônia","Caatinga","Pampa","Mata Atlântica","Cerrado");
+  if (drop == 6) {}
+  else if (drop != 1){drop = 1;}
+}
+
+void tela252(){
+  background(roxo2);
+  linhas(x, roxo2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botaoUn2(xc-445, yc+300, 140, 50, vermelho2, vermelho2S, "< MAPA");
+  botaoUn2(xc+460, yc+300, 140, 50, verde2, verde2S, "QUIZ >");
+  botaoUn2(xc, yc+300, 120, 50, azul2, azul2S, "INFO");
+  fill(roxo2D);
+  stroke(#000000);
+  strokeWeight(4);
+  rect(75, 80, 250, 100, 40);
+  textAlign(CENTER, CENTER);
+  fill(#000000);
+  textSize(50);
+  text("Pantanal", 200, 130);
+}
+
+void tela31() {
+  background(azul2);
+  linhas(x, azul2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botao(xc-270, yc+50, 450, 150, azul1, azul1S, "A", "Alternativa A");
+  botao(xc+270, yc+50, 450, 150, azul1, azul1S, "B", "Alternativa B");
+  botao(xc-270, yc+250, 450, 150, azul1, azul1S, "C", "Alternativa C");
+  botao(xc+270, yc+250, 450, 150, azul1, azul1S, "D", "Alternativa D");
+  caixaTexto(xc, yc-200, 1000, 250, branco, "1", "Questão");
+}
+
+void tela32() {
+  background(azul2);
+  linhas(x, azul2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botao(xc-270, yc+50, 450, 150, azul1, azul1S, "A", "Alternativa A");
+  botao(xc+270, yc+50, 450, 150, azul1, azul1S, "B", "Alternativa B");
+  botao(xc-270, yc+250, 450, 150, azul1, azul1S, "C", "Alternativa C");
+  botao(xc+270, yc+250, 450, 150, azul1, azul1S, "D", "Alternativa D");
+  caixaTexto(xc, yc-200, 1000, 250, branco, "2", "Questão");
+}
+
+void tela33() {
+  background(vermelho2);
+  linhas(x, vermelho2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botao(xc-270, yc+50, 450, 150, vermelho1, vermelho1S, "A", "Alternativa A");
+  botao(xc+270, yc+50, 450, 150, vermelho1, vermelho1S, "B", "Alternativa B");
+  botao(xc-270, yc+250, 450, 150, vermelho1, vermelho1S, "C", "Alternativa C");
+  botao(xc+270, yc+250, 450, 150, vermelho1, vermelho1S, "D", "Alternativa D");
+  caixaTexto(xc, yc-200, 1000, 250, branco, "3", "Questão");
+}
+
+
+void tela34() {
+  background(vermelho2);
+  linhas(x, vermelho2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botao(xc-270, yc+50, 450, 150, vermelho1, vermelho1S, "A", "Alternativa A");
+  botao(xc+270, yc+50, 450, 150, vermelho1, vermelho1S, "B", "Alternativa B");
+  botao(xc-270, yc+250, 450, 150, vermelho1, vermelho1S, "C", "Alternativa C");
+  botao(xc+270, yc+250, 450, 150, vermelho1, vermelho1S, "D", "Alternativa D");
+  caixaTexto(xc, yc-200, 1000, 250, branco, "4", "Questão");
+}
+
+void tela35() {
+  background(verde2);
+  linhas(x, verde2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botao(xc-270, yc+50, 450, 150, verde1, verde1S, "A", "Alternativa A");
+  botao(xc+270, yc+50, 450, 150, verde1, verde1S, "B", "Alternativa B");
+  botao(xc-270, yc+250, 450, 150, verde1, verde1S, "C", "Alternativa C");
+  botao(xc+270, yc+250, 450, 150, verde1, verde1S, "D", "Alternativa D");
+  caixaTexto(xc, yc-200, 1000, 250, branco, "5", "Questão");
+}
+
+void tela36() {
+  background(verde2);
+  linhas(x, verde2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botao(xc-270, yc+50, 450, 150, verde1, verde1S, "A", "Alternativa A");
+  botao(xc+270, yc+50, 450, 150, verde1, verde1S, "B", "Alternativa B");
+  botao(xc-270, yc+250, 450, 150, verde1, verde1S, "C", "Alternativa C");
+  botao(xc+270, yc+250, 450, 150, verde1, verde1S, "D", "Alternativa D");
+  caixaTexto(xc, yc-200, 1000, 250, branco, "6", "Questão");
+}
+
+void tela37() {
+  background(laranja2);
+  linhas(x, laranja2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botao(xc-270, yc+50, 450, 150, laranja1, laranja1S, "A", "Alternativa A");
+  botao(xc+270, yc+50, 450, 150, laranja1, laranja1S, "B", "Alternativa B");
+  botao(xc-270, yc+250, 450, 150, laranja1, laranja1S, "C", "Alternativa C");
+  botao(xc+270, yc+250, 450, 150, laranja1, laranja1S, "D", "Alternativa D");
+  caixaTexto(xc, yc-200, 1000, 250, branco, "7", "Questão");
+}
+
+void tela38() {
+  background(laranja2);
+  linhas(x, laranja2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botao(xc-270, yc+50, 450, 150, laranja1, laranja1S, "A", "Alternativa A");
+  botao(xc+270, yc+50, 450, 150, laranja1, laranja1S, "B", "Alternativa B");
+  botao(xc-270, yc+250, 450, 150, laranja1, laranja1S, "C", "Alternativa C");
+  botao(xc+270, yc+250, 450, 150, laranja1, laranja1S, "D", "Alternativa D");
+  caixaTexto(xc, yc-200, 1000, 250, branco, "8", "Questão");
+}
+
+void tela39() {
+  background(roxo2);
+  linhas(x, roxo2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botao(xc-270, yc+50, 450, 150, roxo1, roxo1S, "A", "Alternativa A");
+  botao(xc+270, yc+50, 450, 150, roxo1, roxo1S, "B", "Alternativa B");
+  botao(xc-270, yc+250, 450, 150, roxo1, roxo1S, "C", "Alternativa C");
+  botao(xc+270, yc+250, 450, 150, roxo1, roxo1S, "D", "Alternativa D");
+  caixaTexto(xc, yc-200, 1000, 250, branco, "9", "Questão");
+}
+
+void tela310() {
+  background(roxo2);
+  linhas(x, roxo2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botao(xc-270, yc+50, 450, 150, roxo1, roxo1S, "A", "Alternativa A");
+  botao(xc+270, yc+50, 450, 150, roxo1, roxo1S, "B", "Alternativa B");
+  botao(xc-270, yc+250, 450, 150, roxo1, roxo1S, "C", "Alternativa C");
+  botao(xc+270, yc+250, 450, 150, roxo1, roxo1S, "D", "Alternativa D");
+  caixaTexto(xc, yc-200, 1000, 250, branco, "10", "Questão");
+}
+
+void tela311() {
+  background(ciano2);
+  linhas(x, ciano2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botao(xc-270, yc+50, 450, 150, ciano1, ciano1S, "A", "Alternativa A");
+  botao(xc+270, yc+50, 450, 150, ciano1, ciano1S, "B", "Alternativa B");
+  botao(xc-270, yc+250, 450, 150, ciano1, ciano1S, "C", "Alternativa C");
+  botao(xc+270, yc+250, 450, 150, ciano1, ciano1S, "D", "Alternativa D");
+  caixaTexto(xc, yc-200, 1000, 250, branco, "11", "Questão");
+}
+
+void tela312() {
+  background(ciano2);
+  linhas(x, ciano2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  botao(xc-270, yc+50, 450, 150, ciano1, ciano1S, "A", "Alternativa A");
+  botao(xc+270, yc+50, 450, 150, ciano1, ciano1S, "B", "Alternativa B");
+  botao(xc-270, yc+250, 450, 150, ciano1, ciano1S, "C", "Alternativa C");
+  botao(xc+270, yc+250, 450, 150, ciano1, ciano1S, "D", "Alternativa D");
+  caixaTexto(xc, yc-200, 1000, 250, branco, "12", "Questão");
+}
+
+void tela4() {
+  background(branco2);
+  linhas(x, branco2D);
+  x=x+0.2;
+  if (x>=100) {
+    x=0;
+  }
+  telaBase();
+  textSize(80);
+  textAlign(CENTER, CENTER);
+  fill(#000000);
+  text("Você acertou ", xc, yc-100);
+  text(acertos + "/12 questões!!", xc, yc);
+  botaoUn(xc, yc+180, 390, 100, branco2D, branco2, "RECOMEÇAR?");
+}
+
+void telaBase() {
+  fill(branco);
+  stroke(#000000);
+  strokeWeight(4);
+  rect(30, 30, 1140, 740, 90);
+}
+
+void linhas(float x, color cor) {
+  stroke(cor);
+  strokeWeight(50);
+  line(x-400, height, x-100, 0);
+  line(x-300, height, x, 0);
+  line(x-200, height, x+100, 0);
+  line(x-100, height, x+200, 0);
+  line(x, height, x+300, 0);
+  line(x+100, height, x+400, 0);
+  line(x+200, height, x+500, 0);
+  line(x+300, height, x+600, 0);
+  line(x+400, height, x+700, 0);
+  line(x+500, height, x+800, 0);
+  line(x+600, height, x+900, 0);
+  line(x+700, height, x+1000, 0);
+  line(x+800, height, x+1100, 0);
+  line(x+900, height, x+1200, 0);
+  line(x+1000, height, x+1300, 0);
+  line(x+1100, height, x+1400, 0);
 }
