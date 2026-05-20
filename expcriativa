@@ -1,35 +1,96 @@
-PImage img; // 1. Declara a variável
+PImage[] fundos;
+
+int atual = 0;
+int proximo = 1;
+
+float alphaFade = 0;
+float velocidade = 2;
+
+int tempoTroca = 3000;
+int ultimoTempo;
+
+int botaoL = 220;
+int botaoA = 60;
 
 void setup() {
-  size(800, 800);
-  img = loadImage("mapabrasil.png");
-  img.resize(800, 800); 
-  background(img);
-  
+  size(1000, 600);
+
+  fundos = new PImage[3];
+  fundos[0] = loadImage("foto1.jpg");
+  fundos[1] = loadImage("foto2.jpg");
+  fundos[2] = loadImage("foto3.jpg");
+
+  ultimoTempo = millis();
+
+  textAlign(CENTER, CENTER);
 }
 
 void draw() {
-  fill(0,48,0);
-  rect(50, 450, 30, 30);
-  fill(144,192,48);
-  rect(50, 500, 30, 30);
-  fill(240, 192, 0);
-  rect(50, 550, 30, 30);
-  fill(240, 96, 0);
-  rect(50, 600, 30, 30);
-  fill(240, 0, 0);
-  rect(50, 650, 30, 30);
-  fill(0, 96, 48);
-  rect(50, 700, 30, 30);
-  
+  image(fundos[atual], 0, 0, width, height);
+
+  tint(255, alphaFade);
+  image(fundos[proximo], 0, 0, width, height);
+  noTint();
+
+  fill(0, 140);
+  noStroke();
+  rect(0, 0, width, height);
+  fill(255);
+
+  textSize(52);
+  text("APLICATIVO BIOMAS", width/2, height/2 - 80);
+
+  textSize(22);
+  text("Desenvolvedores: DSKJKJDHJK", width/2, height/2 - 20);
+
+  desenharBotao();
+
+  if (millis() - ultimoTempo > tempoTroca) {
+
+    alphaFade += velocidade;
+
+    if (alphaFade >= 255) {
+
+      alphaFade = 0;
+
+      atual = proximo;
+      proximo++;
+
+      if (proximo >= fundos.length) {
+        proximo = 0;
+      }
+
+      ultimoTempo = millis();
+    }
+  }
 }
 
-void mousePressed(){
-  if ((mouseX >= 50 && mouseX <=80) && (mouseY > 450 && mouseY < 480)) fill(12,0,255); rect(100,100,100,100);//TELA
-  if ((mouseX >= 50 && mouseX <=80) && (mouseY > 500 && mouseY < 530)) fill(125,0,255); rect(100,100,100,100);//TELA
-  if ((mouseX >= 50 && mouseX <=80) && (mouseY > 550 && mouseY < 580)) fill(122,0,25); rect(100,100,100,100);//TELA
-  if ((mouseX >= 50 && mouseX <=80) && (mouseY > 600 && mouseY < 630)) fill(12,0,255); rect(100,100,100,100);//TELA
-  if ((mouseX >= 50 && mouseX <=80) && (mouseY > 650 && mouseY < 680)) fill(122,0,55); rect(100,100,100,100);//TELA
-  if ((mouseX >= 50 && mouseX <=80) && (mouseY > 700 && mouseY < 780)) fill(122,0,2); rect(100,100,100,100);//TELA
-  
+void desenharBotao() {
+
+  int x = width/2 - botaoL/2;
+  int y = height/2 + 50;
+
+  if (mouseX > x && mouseX < x + botaoL &&
+      mouseY > y && mouseY < y + botaoA) {
+
+    fill(255);
+  } else {
+    fill(230);
+  }
+
+  rect(x, y, botaoL, botaoA, 15);
+
+  fill(0);
+  textSize(24);
+  text("COMEÇAR", width/2, y + botaoA/2);
+}
+
+void mousePressed() {
+
+  int x = width/2 - botaoL/2;
+  int y = height/2 + 50;
+
+  if (mouseX > x && mouseX < x + botaoL &&
+      mouseY > y && mouseY < y + botaoA) {
+  }
 }
