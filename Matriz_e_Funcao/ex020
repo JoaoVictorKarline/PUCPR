@@ -1,0 +1,19 @@
+def desv_padrao(vet):
+    soma = 0
+    media = 0
+    new_vet = []
+    for i in vet:
+        soma += i
+        media += 1
+    media = soma / media
+    t = 0
+    new_soma = 0
+    for i in vet:
+        new_vet.append(i - media)
+        new_vet[t] = new_vet[t] * new_vet[t]
+        new_soma += new_vet[t]
+        t +=1
+    variance = new_soma / len(vet)
+    desvio_padrao = variance ** 0.5
+    vetreturn = [media, desvio_padrao]
+    return vetreturn
