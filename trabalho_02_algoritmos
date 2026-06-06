@@ -52,3 +52,5 @@ classif = classificacao(dados[user[1]])
 new_user.append(classif)
 
 dados.append(new_user)
+
+print(new_user)
