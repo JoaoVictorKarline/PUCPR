@@ -1,16 +1,11 @@
 def classificacao(user):
-    for i in range(0, len(user)):
-        if user[i] == 'P1':
-            return "P1"
-        elif user[i] == 'P2':
-            return "P2"
-        elif user[i] == 'P3':
-            return "P3"
+    perfil = user[-1]
+    return perfil
 
 def busca_usuario(dat, novo_usuario):
     menor = [distancia(dat[0], novo_usuario)]
     menor.append(0)
-    for i in range (0, len(dat)):
+    for i in range (1, len(dat)):
         dist = distancia(dat[i], novo_usuario)
         if dist < menor[0]:
             menor = []
