@@ -54,3 +54,4 @@ new_user.append(classif)
 dados.append(new_user)
 
 print(new_user)
+print(dados)
