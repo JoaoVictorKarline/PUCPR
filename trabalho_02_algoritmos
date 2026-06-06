@@ -8,21 +8,21 @@ def classificacao(user):
             return "P3"
 
 def busca_usuario(dat, novo_usuario):
-    menor = []
+    menor = [distancia(dat[0], novo_usuario)].append(0)
     for i in range (0, len(dat)):
         dist = distancia(dat[i], novo_usuario)
-        if dist < menor:
+        if dist < menor[0]:
             menor = []
             menor.append(dist)
             menor.append(i)
     return menor
 
 def distancia(usuario_dat, novo_usuario):
-    tam = len(usuario_dat)
+    tam = len(usuario_dat) - 1
     soma = 0
     raiz = 0
-    for i in range(tam):
-        soma += (usuario_dat[i] - novo_usuario[i]) ** 2
+    for j in range(0, tam):
+        soma += (usuario_dat[j] - novo_usuario[j]) ** 2
     raiz = soma ** (1/2)
     return raiz
 
