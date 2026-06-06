@@ -1,0 +1,58 @@
+def classificacao(user):
+    for i in range(0, len(user)):
+        if user[i] == 'P1':
+            return "P1"
+        elif user[i] == 'P2':
+            return "P2"
+        elif user[i] == 'P3':
+            return "P3"
+
+def busca_usuario(dat, novo_usuario):
+    menor = []
+    for i in range (0, len(dat)):
+        dist = distancia(dat[i], novo_usuario)
+        if dist < menor:
+            menor = []
+            menor.append(dist)
+            menor.append(i)
+    return menor
+
+def distancia(usuario_dat, novo_usuario):
+    tam = len(usuario_dat)
+    soma = 0
+    raiz = 0
+    for i in range(tam):
+        soma += (usuario_dat[i] - novo_usuario[i]) ** 2
+    raiz = soma ** (1/2)
+    return raiz
+
+dados = [[120, 10, 3, 250, 'P1'],
+[200, 25, 5, 400, 'P2'],
+[80, 5, 2, 180, 'P1'],
+[300, 30, 6, 500, 'P3'],
+[250, 40, 7, 600, 'P3'],
+[150, 12, 4, 320, 'P2'],
+[90, 8, 3, 200, 'P1'],
+[310, 35, 6, 520, 'P3'],
+[170, 15, 4, 350, 'P2'],
+[85, 6, 2, 190, 'P1'],
+[220, 18, 5, 410, 'P2'],
+[305, 38, 6, 510, 'P3'],
+[130, 11, 3, 270, 'P1'],
+[260, 42, 7, 580, 'P3'],
+[160, 14, 4, 330, 'P2'],
+[100, 9, 2, 210, 'P1'],
+[240, 28, 6, 460, 'P3'],
+[180, 16, 4, 370, 'P2'],
+[95, 7, 2, 195, 'P1'],
+[270, 40, 6, 590, 'P3']]
+
+new_user = [255, 23, 7, 500]
+
+user = busca_usuario(dados, new_user)
+
+classif = classificacao(dados[user[1]])
+
+new_user.append(classif)
+
+dados.append(new_user)
