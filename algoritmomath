@@ -1,282 +1,316 @@
-"""
-Gerador de Tabela Verdade — Lógica Proposicional
-=================================================
-Estilo: programação funcional pura (sem classes, sem POO)
-
-Operadores suportados:
-  ~   negação        (unário, maior precedência)
-  ^   conjunção      (E)
-  |   disjunção      (OU)
-  >   condicional    (SE...ENTÃO)
-  <   bicondicional  (SE E SOMENTE SE)
-
-Precedência (mais forte → mais fraco): ~ ^ | > <
-
-Exemplos:
-  p^q
-  (p|q)>r
-  ~p^(q|r)
-  ((J<P)^(P>Q))
-"""
-
-from itertools import product
-from functools import reduce
-
-
-# ─────────────────────────────────────────────────────────────────
-#  TOKENIZAÇÃO
-# ─────────────────────────────────────────────────────────────────
-
-def tokeniza(texto):
-    return tuple(c for c in texto if c != " ")
-
-
-# ─────────────────────────────────────────────────────────────────
-#  PARSER RECURSIVO DESCENDENTE (funcional com índice explícito)
+# Operadores suportados:
+#   ~  negacao
+#   ^  e (conjuncao)
+#   |  ou (disjuncao)
+#   >  se...entao (condicional)
+#   <  se e somente se (bicondicional)
 #
-#  Cada função de parse recebe (tokens, pos) e retorna (nó, nova_pos).
-#  Nós são tuplas imutáveis:
-#    ("var", "p")
-#    ("neg", filho)
-#    ("bin", operador, esq, dir)
-# ─────────────────────────────────────────────────────────────────
+# Exemplos:
+#   p^q
+#   (p|q)>r
+#   ~p^(q|r)
+#   ((J<P)^(P>Q))
 
-def peek(tokens, pos):
-    return tokens[pos] if pos < len(tokens) else None
 
-def consome(tokens, pos, esperado=None):
-    tok = peek(tokens, pos)
-    if esperado and tok != esperado:
-        raise ValueError(f"Esperado '{esperado}', encontrado '{tok}' na posição {pos}")
-    return tok, pos + 1
+# ─────────────────────────────────────
+#  PEGAR VARIAVEIS DA EXPRESSAO
+# ─────────────────────────────────────
 
-# Gramática (precedência crescente de cima para baixo):
-#   expr          ::= bicondicional
-#   bicondicional ::= condicional   ('<' condicional)*
-#   condicional   ::= disjuncao    ('>' disjuncao)*
-#   disjuncao     ::= conjuncao    ('|' conjuncao)*
-#   conjuncao     ::= negacao      ('^' negacao)*
-#   negacao       ::= '~' negacao  | atomo
-#   atomo         ::= LETRA | '(' expr ')'
+def pega_variaveis(expressao):
+    variaveis = []
+    for c in expressao:
+        if c.isalpha() and c not in variaveis:
+            variaveis.append(c)
+    return variaveis
 
-def parse_expr(tokens, pos):
+
+# ─────────────────────────────────────
+#  GERAR TODAS AS COMBINACOES DE V/F
+# ─────────────────────────────────────
+
+def gera_combinacoes(n_variaveis):
+    total_linhas = 2 ** n_variaveis
+    combinacoes = []
+
+    for i in range(total_linhas):
+        linha = []
+        for j in range(n_variaveis):
+            # divide o intervalo em blocos para alternar V e F
+            bloco = 2 ** (n_variaveis - j - 1)
+            if (i // bloco) % 2 == 0:
+                linha.append(True)
+            else:
+                linha.append(False)
+        combinacoes.append(linha)
+
+    return combinacoes
+
+
+# ─────────────────────────────────────
+#  PARSER: transforma texto em arvore
+# ─────────────────────────────────────
+# A arvore e feita de listas:
+#   ["var", "p"]
+#   ["neg", filho]
+#   ["bin", operador, esquerdo, direito]
+#
+# Cada funcao recebe (tokens, pos) e
+# devolve (no_da_arvore, nova_pos).
+
+def pega_token(tokens, pos):
+    if pos < len(tokens):
+        return tokens[pos]
+    return None
+
+def parse_expressao(tokens, pos):
     return parse_bicondicional(tokens, pos)
 
-def _parse_binario(tokens, pos, operador, parse_filho):
-    """Faz o loop de um operador binário associativo à esquerda."""
-    no, pos = parse_filho(tokens, pos)
-    while peek(tokens, pos) == operador:
-        _, pos = consome(tokens, pos, operador)
-        direito, pos = parse_filho(tokens, pos)
-        no = ("bin", operador, no, direito)
+def parse_bicondicional(tokens, pos):
+    no, pos = parse_condicional(tokens, pos)
+    while pega_token(tokens, pos) == "<":
+        pos = pos + 1
+        direito, pos = parse_condicional(tokens, pos)
+        no = ["bin", "<", no, direito]
     return no, pos
 
-def parse_bicondicional(tokens, pos):
-    return _parse_binario(tokens, pos, "<", parse_condicional)
-
 def parse_condicional(tokens, pos):
-    return _parse_binario(tokens, pos, ">", parse_disjuncao)
+    no, pos = parse_disjuncao(tokens, pos)
+    while pega_token(tokens, pos) == ">":
+        pos = pos + 1
+        direito, pos = parse_disjuncao(tokens, pos)
+        no = ["bin", ">", no, direito]
+    return no, pos
 
 def parse_disjuncao(tokens, pos):
-    return _parse_binario(tokens, pos, "|", parse_conjuncao)
+    no, pos = parse_conjuncao(tokens, pos)
+    while pega_token(tokens, pos) == "|":
+        pos = pos + 1
+        direito, pos = parse_conjuncao(tokens, pos)
+        no = ["bin", "|", no, direito]
+    return no, pos
 
 def parse_conjuncao(tokens, pos):
-    return _parse_binario(tokens, pos, "^", parse_negacao)
+    no, pos = parse_negacao(tokens, pos)
+    while pega_token(tokens, pos) == "^":
+        pos = pos + 1
+        direito, pos = parse_negacao(tokens, pos)
+        no = ["bin", "^", no, direito]
+    return no, pos
 
 def parse_negacao(tokens, pos):
-    if peek(tokens, pos) == "~":
-        _, pos = consome(tokens, pos, "~")
+    if pega_token(tokens, pos) == "~":
+        pos = pos + 1
         filho, pos = parse_negacao(tokens, pos)
-        return ("neg", filho), pos
+        return ["neg", filho], pos
     return parse_atomo(tokens, pos)
 
 def parse_atomo(tokens, pos):
-    tok = peek(tokens, pos)
-    if tok is None:
-        raise ValueError("Expressão incompleta")
+    tok = pega_token(tokens, pos)
     if tok == "(":
-        _, pos = consome(tokens, pos, "(")
-        no, pos = parse_expr(tokens, pos)
-        _, pos = consome(tokens, pos, ")")
+        pos = pos + 1
+        no, pos = parse_expressao(tokens, pos)
+        pos = pos + 1   # consome o ")"
         return no, pos
     if tok.isalpha():
-        _, pos = consome(tokens, pos)
-        return ("var", tok), pos
-    raise ValueError(f"Token inválido '{tok}' na posição {pos}")
+        return ["var", tok], pos + 1
+    raise ValueError(f"Token invalido: '{tok}' na posicao {pos}")
 
-def parse(expressao):
-    tokens = tokeniza(expressao)
-    no, pos = parse_expr(tokens, 0)
+def faz_parse(expressao):
+    tokens = [c for c in expressao if c != " "]
+    no, pos = parse_expressao(tokens, 0)
     if pos < len(tokens):
-        raise ValueError(f"Token inesperado '{tokens[pos]}' na posição {pos}")
+        raise ValueError(f"Token inesperado '{tokens[pos]}' na posicao {pos}")
     return no
 
 
-# ─────────────────────────────────────────────────────────────────
-#  AVALIADOR (recursão pura sobre a árvore)
-# ─────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────
+#  AVALIADOR: calcula o valor de um no
+# ─────────────────────────────────────
 
-OPS = {
-    "^": lambda e, d: e and d,
-    "|": lambda e, d: e or d,
-    ">": lambda e, d: (not e) or d,
-    "<": lambda e, d: e == d,
-}
-
-def avalia(no, atrib):
+def avalia(no, atribuicao):
     tipo = no[0]
+
     if tipo == "var":
-        return atrib[no[1]]
+        return atribuicao[no[1]]
+
     if tipo == "neg":
-        return not avalia(no[1], atrib)
-    # tipo == "bin"
-    _, op, esq, dir = no
-    return OPS[op](avalia(esq, atrib), avalia(dir, atrib))
+        return not avalia(no[1], atribuicao)
+
+    # operadores binarios
+    esq = avalia(no[2], atribuicao)
+    dir = avalia(no[3], atribuicao)
+    op  = no[1]
+
+    if op == "^":
+        return esq and dir
+    if op == "|":
+        return esq or dir
+    if op == ">":
+        return (not esq) or dir
+    if op == "<":
+        return esq == dir
 
 
-# ─────────────────────────────────────────────────────────────────
-#  RÓTULO DE UM NÓ (representação textual da subexpressão)
-# ─────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────
+#  ROTULO: texto que representa um no
+# ─────────────────────────────────────
 
 def rotulo(no):
     tipo = no[0]
+
     if tipo == "var":
         return no[1]
+
     if tipo == "neg":
         filho = rotulo(no[1])
-        return f"~({filho})" if no[1][0] == "bin" else f"~{filho}"
-    _, op, esq, dir = no
-    return f"({rotulo(esq)}{op}{rotulo(dir)})"
+        if no[1][0] == "bin":
+            return "~(" + filho + ")"
+        return "~" + filho
+
+    # binario
+    esq = rotulo(no[2])
+    dir = rotulo(no[3])
+    op  = no[1]
+    return "(" + esq + op + dir + ")"
 
 
-# ─────────────────────────────────────────────────────────────────
-#  COLETA DE SUBEXPRESSÕES EM PÓS-ORDEM (para colunas intermediárias)
-# ─────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────
+#  COLETA SUBEXPRESSOES (pos-ordem)
+# ─────────────────────────────────────
 
-def subexpressoes(no):
-    """Retorna lista de nós em pós-ordem, excluindo variáveis simples."""
+def coleta_subexpressoes(no):
     tipo = no[0]
+    resultado = []
+
     if tipo == "var":
-        return []
+        return resultado
+
     if tipo == "neg":
-        return subexpressoes(no[1]) + [no]
-    _, op, esq, dir = no
-    return subexpressoes(esq) + subexpressoes(dir) + [no]
+        resultado = resultado + coleta_subexpressoes(no[1])
+        resultado.append(no)
+        return resultado
 
-def deduplica(nos):
-    """Remove duplicatas mantendo a primeira ocorrência (por rótulo)."""
-    def acumula(acc, no):
-        vistos, lista = acc
+    # binario
+    resultado = resultado + coleta_subexpressoes(no[2])
+    resultado = resultado + coleta_subexpressoes(no[3])
+    resultado.append(no)
+    return resultado
+
+def remove_duplicatas(nos):
+    vistos = []
+    sem_duplicata = []
+    for no in nos:
         r = rotulo(no)
-        return (vistos | {r}, lista + [no]) if r not in vistos else acc
-    _, lista = reduce(acumula, nos, (set(), []))
-    return lista
+        if r not in vistos:
+            vistos.append(r)
+            sem_duplicata.append(no)
+    return sem_duplicata
 
 
-# ─────────────────────────────────────────────────────────────────
-#  VARIÁVEIS EM ORDEM DE APARIÇÃO
-# ─────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────
+#  MONTA E IMPRIME A TABELA VERDADE
+# ─────────────────────────────────────
 
-def variaveis_em_ordem(expressao):
-    def acumula(acc, c):
-        return acc + (c,) if c.isalpha() and c not in acc else acc
-    return reduce(acumula, expressao, ())
-
-
-# ─────────────────────────────────────────────────────────────────
-#  GERAÇÃO DA TABELA VERDADE
-# ─────────────────────────────────────────────────────────────────
-
-def bool_para_vf(b):
-    return "V" if b else "F"
+def bool_para_vf(valor):
+    if valor:
+        return "V"
+    return "F"
 
 def gera_tabela(expressao):
-    arvore  = parse(expressao)
-    variaveis = variaveis_em_ordem(expressao)
-    colunas_inter = deduplica(subexpressoes(arvore))
+    arvore    = faz_parse(expressao)
+    variaveis = pega_variaveis(expressao)
+    subexpr   = remove_duplicatas(coleta_subexpressoes(arvore))
 
-    cabecalho = variaveis + tuple(rotulo(n) for n in colunas_inter)
+    # monta cabecalho
+    cabecalho = []
+    for v in variaveis:
+        cabecalho.append(v)
+    for no in subexpr:
+        cabecalho.append(rotulo(no))
 
-    def faz_linha(vals):
-        atrib = dict(zip(variaveis, vals))
-        valores_vars  = tuple(bool_para_vf(v) for v in vals)
-        valores_inter = tuple(bool_para_vf(avalia(n, atrib)) for n in colunas_inter)
-        return valores_vars + valores_inter
+    # monta linhas
+    combinacoes = gera_combinacoes(len(variaveis))
+    linhas = []
+    for vals in combinacoes:
+        atribuicao = {}
+        for i in range(len(variaveis)):
+            atribuicao[variaveis[i]] = vals[i]
 
-    combinacoes = product((True, False), repeat=len(variaveis))
-    linhas = tuple(faz_linha(vals) for vals in combinacoes)
+        linha = []
+        for v in vals:
+            linha.append(bool_para_vf(v))
+        for no in subexpr:
+            linha.append(bool_para_vf(avalia(no, atribuicao)))
+
+        linhas.append(linha)
 
     return cabecalho, linhas
 
-
-# ─────────────────────────────────────────────────────────────────
-#  IMPRESSÃO
-# ─────────────────────────────────────────────────────────────────
-
-def larguras_colunas(cabecalho, linhas):
-    return tuple(
-        max(len(cabecalho[i]), *(len(linha[i]) for linha in linhas))
-        for i in range(len(cabecalho))
-    )
-
-def formata_celula(texto, largura):
-    return f" {texto.center(largura)} "
-
-def formata_linha(valores, larguras):
-    celulas = tuple(formata_celula(str(v), l) for v, l in zip(valores, larguras))
-    return "|" + "|".join(celulas) + "|"
-
-def separador(larguras):
-    return "+" + "+".join("-" * (l + 2) for l in larguras) + "+"
-
-def classifica(linhas):
-    resultados = tuple(linha[-1] for linha in linhas)
-    if all(r == "V" for r in resultados):
-        return "✓ Tautologia (sempre verdadeira)"
-    if all(r == "F" for r in resultados):
-        return "✗ Contradição (sempre falsa)"
-    return "~ Contingência (às vezes verdadeira, às vezes falsa)"
-
 def imprime_tabela(cabecalho, linhas):
-    largs = larguras_colunas(cabecalho, linhas)
-    sep   = separador(largs)
+    # calcula a largura de cada coluna
+    larguras = []
+    for i in range(len(cabecalho)):
+        maior = len(cabecalho[i])
+        for linha in linhas:
+            if len(linha[i]) > maior:
+                maior = len(linha[i])
+        larguras.append(maior)
+
+    # monta o separador
+    sep = "+"
+    for l in larguras:
+        sep = sep + "-" * (l + 2) + "+"
+
+    # imprime cabecalho
     print(sep)
-    print(formata_linha(cabecalho, largs))
+    linha_cab = "|"
+    for i in range(len(cabecalho)):
+        celula = cabecalho[i].center(larguras[i])
+        linha_cab = linha_cab + " " + celula + " |"
+    print(linha_cab)
     print(sep)
-    # impressão funcional: efeito colateral dentro de map descartado com tuple
-    tuple(print(formata_linha(l, largs)) for l in linhas)
+
+    # imprime cada linha
+    for linha in linhas:
+        linha_str = "|"
+        for i in range(len(linha)):
+            celula = linha[i].center(larguras[i])
+            linha_str = linha_str + " " + celula + " |"
+        print(linha_str)
+
     print(sep)
-    print(f"\n{classifica(linhas)}")
+
+    # classificacao
+    resultados = []
+    for linha in linhas:
+        resultados.append(linha[-1])
+
+    if "F" not in resultados:
+        print("\nTautologia (sempre verdadeira)")
+    elif "V" not in resultados:
+        print("\nContradicao (sempre falsa)")
+    else:
+        print("\nContingencia (as vezes verdadeira, as vezes falsa)")
 
 
-# ─────────────────────────────────────────────────────────────────
-#  LOOP PRINCIPAL
-# ─────────────────────────────────────────────────────────────────
-
-def processa(expressao):
-    try:
-        cabecalho, linhas = gera_tabela(expressao)
-        print()
-        imprime_tabela(cabecalho, linhas)
-    except ValueError as e:
-        print(f"  ✗ Erro: {e}")
-
-def loop():
-    expressao = input("\nExpressão (ou 'sair'): ").strip()
-    if expressao.lower() in ("sair", "exit", "q"):
-        return
-    if expressao:
-        processa(expressao)
-    loop()   # recursão no lugar de while
-
-def main():
-    print("=" * 60)
-    print("  GERADOR DE TABELA VERDADE — LÓGICA PROPOSICIONAL")
-    print("=" * 60)
-    print("  Operadores:  ~ (não)  ^ (e)  | (ou)  > (se)  < (sse)")
-    print("  Ex: (p|q)>r    ~p^(q|r)    ((J<P)^(P>Q))")
-    print("=" * 60)
-    loop()
+# ─────────────────────────────────────
+#  PROGRAMA PRINCIPAL
+# ─────────────────────────────────────
 
 if __name__ == "__main__":
-    main()
+    print("GERADOR DE TABELA VERDADE")
+    print("Operadores: ~ (nao)  ^ (e)  | (ou)  > (se)  < (sse)")
+    print("Exemplo: (p|q)>r    ~p^(q|r)    ((J<P)^(P>Q))")
+
+    while True:
+        expressao = input("\nExpressao (ou 'sair'): ")
+
+        if expressao == "sair":
+            break
+
+        try:
+            cabecalho, linhas = gera_tabela(expressao)
+            print()
+            imprime_tabela(cabecalho, linhas)
+        except Exception as e:
+            print("Erro:", e)
