@@ -1,0 +1,84 @@
+body {
+    background-color: rgb(34, 32, 32);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+    margin: 0;
+}
+
+#div-calculadora {
+    background-color: rgb(143, 142, 142);
+    width: 800px;
+    height: 750px;
+}
+
+#numerotela{
+    background-color: azure;
+    height: 100px;
+    text-align: right;
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+
+.numeros-operadores{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+#agruparnumeros{
+    width: 50%;
+}
+
+.numeros{
+    margin: 20px;
+    box-shadow: 5px 5px 5px 5px;
+    
+}
+
+.operadores{
+    width: 50%;
+    
+}
+
+.numero-linha{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.num{
+    height: 80px;
+    width: 80px;
+    font-size: large;
+    background-color: rgb(53, 49, 49);
+    color: beige;
+}
+
+.operador-linha{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+
+}
+
+.operadorbotao{
+    height: 80px;
+    width: 80px;
+    font-size: large;
+}
+
+.operador{
+    margin: 10px;
+    padding: 5px;
+}
+
+#igual{
+    background-color: rgb(223, 209, 88);
+}
